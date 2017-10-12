@@ -1,58 +1,41 @@
-/*
-       Licensed to the Apache Software Foundation (ASF) under one
-       or more contributor license agreements.  See the NOTICE file
-       distributed with this work for additional information
-       regarding copyright ownership.  The ASF licenses this file
-       to you under the Apache License, Version 2.0 (the
-       "License"); you may not use this file except in compliance
-       with the License.  You may obtain a copy of the License at
+/**
+ */
+package com.example;
 
-         http://www.apache.org/licenses/LICENSE-2.0
-
-       Unless required by applicable law or agreed to in writing,
-       software distributed under the License is distributed on an
-       "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-       KIND, either express or implied.  See the License for the
-       specific language governing permissions and limitations
-       under the License.
-*/
-package org.apache.cordova.device;
-
-import java.util.TimeZone;
-
-import org.apache.cordova.CordovaWebView;
 import org.apache.cordova.CallbackContext;
-import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CordovaInterface;
+import org.apache.cordova.CordovaPlugin;
+import org.apache.cordova.CordovaWebView;
+import org.apache.cordova.PluginResult;
+import org.apache.cordova.PluginResult.Status;
+import org.json.JSONObject;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
-import android.provider.Settings;
 import android.util.Log;
 
+import java.util.Date;
+
 public class MyCordovaPlugin extends CordovaPlugin {
-    public static final String TAG = "MyCordovaPlugin";
+  private static final String TAG = "MyCordovaPlugin";
 
-    
-    public void initialize(CordovaInterface cordova, CordovaWebView webView) {
-        super.initialize(cordova, webView);
-        Log.d(TAG, "Initializing MyCordovaPlugin");
-    }
+  public void initialize(CordovaInterface cordova, CordovaWebView webView) {
+    super.initialize(cordova, webView);
 
-    public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
-        if ("echo".equals(action)) {
-            String phrase = args.getString(0);
-            Log.d(TAG, phrase);
-        }
-        else if("getDate".equals(action)){
-            final PluginResult result = new PluginResult(PluginResult.Status.OK, (new Date().toString()));
-            callbackContext.sendPluginResult(result);
-        }
-        else {
-            return false;
-        }
-        return true;
+    Log.d(TAG, "Initializing MyCordovaPlugin");
+  }
+
+  public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException {
+    if(action.equals("echo")) {
+      String phrase = args.getString(0);
+      // Echo back the first argument
+      Log.d(TAG, phrase);
+    } else if(action.equals("getDate")) {
+      // An example of returning data back to the web layer
+      final PluginResult result = new PluginResult(PluginResult.Status.OK, (new Date()).toString());
+      callbackContext.sendPluginResult(result);
     }
+    return true;
+  }
 
 }
